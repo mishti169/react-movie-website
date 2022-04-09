@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './Card.css';
 import Button from './Button';
 
 function Card(props) {
-  const { title, rating, description, genre, year, imgSrc } = props;
+  const { rating, description, genre, year, imgSrc, title } = props;
 
   function renderRating() {
     if (rating) {
@@ -12,9 +12,9 @@ function Card(props) {
     return null;
   }
 
-  // if (!title && !description) {
-  //   return null;
-  // }
+  if (!title && !description) {
+    return null;
+  }
 
   return (
     <div
