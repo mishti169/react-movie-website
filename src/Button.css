@@ -1,0 +1,13 @@
+.btn {
+  border: none;
+  padding: 14px;
+  border-radius: 10px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 800;
+  letter-spacing: 1px;
+  font-size: 14px;
+  transition: all ease 0.3s;
+  background: rgba(240, 0, 0, 1);
+  color: rgba(255, 255, 255, 1);
+  cursor: pointer;
+}
