@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './style.css';
 import Card from './Card';
 import axios from 'axios';
+import Button from './Button';
 
 // const movieEndPoint = "https://api.themoviedb.org/3/movie/top_rated?api_key=d296f9125c5c7cacb5d98137b5dd8ded&language=en-US&page=1"
 
@@ -9,18 +10,22 @@ import axios from 'axios';
 
 export default function App() {
   const [isMovieListVisible, setMovieVisibility] = useState(true);
-  let data = {};
+  const [pageNo, setPageNo] = useState(1);
+  const [apiData, setApiData] = useState({});
 
-  async function fetchMovies() {
-    const { data } = await axios(
-      'https://api.themoviedb.org/3/movie/top_rated?api_key=d296f9125c5c7cacb5d98137b5dd8ded&language=en-US&page=1'
+  async function fetchMovies(page) {
+    const res = await axios(
+      `https://api.themoviedb.org/3/movie/top_rated?api_key=d296f9125c5c7cacb5d98137b5dd8ded&language=en-US&page=${
+        page || 1
+      }`
     );
-    console.log(data);
+    setApiData(res); //async
   }
   // if second argument (array) is empty, that means this function will be called only once as this concept is known as mounting
   useEffect(function () {
     console.log('component mounted App');
     fetchMovies();
+    console.log('hiiiii from useEffect');
   }, []);
 
   function toggleMovieList() {
@@ -28,7 +33,7 @@ export default function App() {
   }
 
   function renderMovieList() {
-    const moviesCardList = data.results.map(function (item) {
+    const moviesCardList = apiData.data.results.map(function (item) {
       return (
         <Card
           title={item.title}
@@ -41,8 +46,28 @@ export default function App() {
     return moviesCardList;
   }
 
-  if (!data.results) {
-    return 'Loading...';
+  function getPageDataAndScroll(page) {
+    if (page <= 0) {
+      return;
+    }
+
+    setPageNo(page);
+    fetchMovies(page);
+    window.scrollTo({ behavior: 'smooth', top: 0 });
+  }
+
+  function getNextPageData() {
+    console.log('next btn clicked');
+    getPageDataAndScroll(pageNo + 1);
+  }
+
+  function getPreviousPageData() {
+    console.log('Previous btn clicked');
+    getPageDataAndScroll(pageNo - 1);
+  }
+
+  if (!apiData.data) {
+    return <div>Loading...</div>;
   }
 
   return (
@@ -50,7 +75,14 @@ export default function App() {
       <button onClick={toggleMovieList}>Click Here to toggle movie List</button>
       <div className="movie-list-container">
         {isMovieListVisible && renderMovieList()}
-        {/* true && [<Card/>, <Card/>] */}
+      </div>
+      <div className="page-btn-container">
+        <Button
+          onBtnClick={getPreviousPageData}
+          text="Previous"
+          variant="primary"
+        />
+        <Button onBtnClick={getNextPageData} text="Next" variant="primary" />
       </div>
     </div>
   );
