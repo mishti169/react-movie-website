@@ -7,7 +7,6 @@ import Button from './Button';
 // const movieEndPoint = "https://api.themoviedb.org/3/movie/top_rated?api_key=d296f9125c5c7cacb5d98137b5dd8ded&language=en-US&page=1"
 
 // const imageEndpoint = "https://api.themoviedb.org/3/movie/top_rated?api_key=d296f9125c5c7cacb5d98137b5dd8ded&language=en-US&page=1"
-let times = 0;
 
 export default function App() {
   const [isMovieListVisible, setMovieVisibility] = useState(true);
@@ -76,7 +75,6 @@ export default function App() {
     getPageDataAndScroll(pageNo - 1);
   }
 
-  console.log('rendered times : ', times++);
   if (!apiData.data) {
     return <div>Loading...</div>;
   }
