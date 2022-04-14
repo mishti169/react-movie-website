@@ -29,9 +29,16 @@ export default function App() {
   //   console.log('hiiiii from useEffect');
   // }, []);
 
-  useEffect(() => {
-    fetchMovies(pageNo);
-  }, [pageNo]);
+  // useEffect(() => {
+  //   fetchMovies(pageNo);
+  // }, [pageNo]);
+
+  useEffect(
+    function () {
+      fetchMovies(pageNo);
+    },
+    [pageNo]
+  );
 
   function toggleMovieList() {
     setMovieVisibility(!isMovieListVisible);
